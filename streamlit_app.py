@@ -8,7 +8,7 @@ from geopy.extra.rate_limiter import RateLimiter
 
 #------------------
 # config
-st.set_page_config(page_title='Geo App Demo',
+st.set_page_config(page_title='Immo-FFM-Demo',
                 #page_icon=":shark:",
                 layout='wide')
                 #menu_items: Get help, Report a Bug, About
