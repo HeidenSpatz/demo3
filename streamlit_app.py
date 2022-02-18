@@ -7,6 +7,8 @@ from geopy.geocoders import Nominatim
 #To avoid time out in API
 from geopy.extra.rate_limiter import RateLimiter
 
+import plotly.figure_factory as ff
+import numpy as np
 
 
 #------------------
@@ -17,6 +19,15 @@ st.set_page_config(page_title='Immo-FFM-Demo',
                 #menu_items: Get help, Report a Bug, About
 
 st.title("ImmoScout FFM Demo")
+
+
+# sidebar demo
+add_selectbox = st.sidebar.selectbox(
+    "This can be used to structure the app.",
+    ("Data Exploration", "Google Maps", "Whatever")
+)
+
+
 
 
 # get data from google sheet
@@ -45,14 +56,59 @@ def get_data(_connector, gsheets_url) -> pd.DataFrame:
 gsheet_connector = get_connector()
 gsheets_url = st.secrets["gsheets"]["public_gsheets_url"]
 data = get_data(gsheet_connector, gsheets_url)
-df = pd.DataFrame(data)
+
+
+
 
 
 # overiew
 #------------------
 st.header("Overview")
 with st.expander("Click to see basic stats!"):
-    st.write(df.describe())
+    st.write("df.columns", list(data.columns))
+    st.write("df.head()", data.head())
+    #st.write("df.astype(str)", data.astype(str).head())
+    #st.write("df.describe()", data.describe())
+    #st.write("df.info()", data.info())
+    
+
+
+
+
+# show histogram
+#------------------
+@st.cache
+def data_for_hist(data):
+    df = data.iloc[0:1000,0:6]
+    df.dropna(inplace=True)
+    return df
+
+
+col_data = data_for_hist(data)
+attributes = list(col_data.columns)
+
+
+col5, col6 = st.columns(2)
+with col5:
+    col5.subheader("Select an attribute")
+    my_attribute = col5.selectbox("", attributes, 0)
+
+with col6:
+    col6.subheader("Select bin size")
+    bin_size = st.slider("", 0, 100, 50, 1)
+
+
+hist_data = col_data[my_attribute].astype(float)
+hist_data = [hist_data]
+group_labels = [my_attribute]
+
+# Create distplot with custom bin_size
+fig = ff.create_distplot(
+         hist_data, group_labels, bin_size=[bin_size])
+
+# Plot!
+st.plotly_chart(fig, use_container_width=True)
+
 
 
 
