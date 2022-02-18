@@ -16,7 +16,7 @@ st.set_page_config(page_title='Immo-FFM-Demo',
                 layout='wide')
                 #menu_items: Get help, Report a Bug, About
 
-st.title("hello 3")
+st.title("ImmoScout FFM Demo")
 
 
 # get data from google sheet
