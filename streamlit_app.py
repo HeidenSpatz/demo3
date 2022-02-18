@@ -51,7 +51,7 @@ data = get_data(gsheet_connector, gsheets_url)
 
 @st.cache
 def data_for_hist(data):
-    df = data.iloc[0:1000,0:6]
+    df = data.iloc[0:1000,1:6]
     df.dropna(inplace=True)
     return df
 
