@@ -8,6 +8,8 @@ streamlit = "*"
 geemap = "*"
 geopy = "*"
 gsheetsdb = "*"
+plotly = "*"
+scipy = "*"
 
 [dev-packages]
 
