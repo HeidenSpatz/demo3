@@ -95,7 +95,7 @@ with col5:
 
 with col6:
     col6.subheader("Select bin size")
-    bin_size = st.slider("", 0, 100, 50, 1)
+    bin_size = st.slider("", 0, 50, 25, 1)
 
 
 hist_data = col_data[my_attribute].astype(float)
